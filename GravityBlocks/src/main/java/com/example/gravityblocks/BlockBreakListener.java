@@ -8,8 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.List;
 
 public class BlockBreakListener implements Listener {
 
@@ -20,13 +24,33 @@ public class BlockBreakListener implements Listener {
         this.plugin = plugin;
     }
 
+    // 通常のブロック破壊（プレイヤー・ピストンなど）
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
     public void onBlockBreak(BlockBreakEvent event) {
-        Block broken = event.getBlock();
+        scheduleCollapse(event.getBlock().getLocation());
+    }
+
+    // TNTなどエンティティによる爆発
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onEntityExplode(EntityExplodeEvent event) {
+        for (Block block : event.blockList()) {
+            scheduleCollapse(block.getLocation());
+        }
+    }
+
+    // ブロック自体の爆発（床置きTNTなど）
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onBlockExplode(BlockExplodeEvent event) {
+        for (Block block : event.blockList()) {
+            scheduleCollapse(block.getLocation());
+        }
+    }
+
+    private void scheduleCollapse(Location loc) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                collapseAbove(broken.getLocation());
+                collapseAbove(loc);
             }
         }.runTaskLater(plugin, 1L);
     }
@@ -48,7 +72,7 @@ public class BlockBreakListener implements Listener {
             final Location spawnLoc = above.getLocation().add(0.5, 0.0, 0.5);
             above.setType(Material.AIR);
 
-            final int delay = count * 1;
+            final int delay = count;
             new BukkitRunnable() {
                 @Override
                 public void run() {
