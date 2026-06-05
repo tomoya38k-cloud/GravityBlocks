@@ -40,7 +40,7 @@ public class BlockBreakListener implements Listener {
             Material mat = above.getType();
 
             if (mat == Material.AIR || mat == Material.CAVE_AIR || mat == Material.VOID_AIR
-                    || mat.isLiquid() || !mat.isSolid()) {
+                    || mat == Material.WATER || mat == Material.LAVA || !mat.isSolid()) {
                 break;
             }
 
