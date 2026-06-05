@@ -1,0 +1,17 @@
+name: GravityBlocks
+version: 1.0.0
+main: com.example.gravityblocks.GravityBlocks
+api-version: 1.21
+author: Claude
+description: 設置したブロックが自動で落下して地面に積み上がるプラグイン
+
+commands:
+  gravity:
+    description: 重力モードのON/OFFを切り替えます
+    usage: /gravity [on|off]
+    permission: gravityblocks.use
+
+permissions:
+  gravityblocks.use:
+    description: /gravity コマンドの使用権限
+    default: true
