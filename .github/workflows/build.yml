@@ -1,0 +1,30 @@
+name: GravityBlocks ビルド
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ソースコードを取得
+        uses: actions/checkout@v4
+
+      - name: Java 21 をセットアップ
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Maven でビルド
+        run: mvn package -q
+
+      - name: JARファイルをアップロード
+        uses: actions/upload-artifact@v4
+        with:
+          name: GravityBlocks-1.0.0
+          path: output/GravityBlocks-1.0.0.jar
