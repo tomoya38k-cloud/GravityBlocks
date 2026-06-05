@@ -42,7 +42,6 @@ public class BlockPlaceListener implements Listener {
 
         // 設定: 着地後にブロックになる、アイテムドロップしない
         fallingBlock.setDropItem(false);
-        fallingBlock.setShouldAutoExpire(false);
 
         // ダメージ無効化（エンティティを傷つけない）
         fallingBlock.setHurtEntities(false);
