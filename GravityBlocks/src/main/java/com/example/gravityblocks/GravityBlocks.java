@@ -18,6 +18,7 @@ public class GravityBlocks extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         getLogger().info("GravityBlocks が有効化されました！");
     }
 
