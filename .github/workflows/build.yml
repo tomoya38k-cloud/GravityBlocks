@@ -22,6 +22,7 @@ jobs:
 
       - name: Maven でビルド
         run: mvn package -q
+        working-directory: GravityBlocks
 
       - name: JARファイルをアップロード
         uses: actions/upload-artifact@v4
